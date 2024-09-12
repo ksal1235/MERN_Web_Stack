@@ -279,3 +279,74 @@ module.exports = router;
 
 ![image](https://github.com/user-attachments/assets/87dbdbc1-0554-46f7-afe5-9843bf72344f)
 
+## STEP5 - MongoDB
+   DatabaseWe need a database where we will store our data. For this we will make use of mLab. mLab provides MongoDB database as a service solution (DBaaS), so to make life easy, you will need to sign up for a shared clusters free account, which is ideal for our use case. Sign up here. Follow the sign up process, select AWS as the cloud provider, and choose a region which is near.
+
+Create a MongoDB database and collection inside mLab.
+
+![image](https://github.com/user-attachments/assets/0756dd23-6391-4cf8-9d86-9f566dd9620b)
+
+In the index.js file, we specified process.env to access environment variables, but we have not yet created this file.
+
+Create a file in Todo directory and name it .env.
+
+      touch .env
+      vi .env
+
+Add the connection string to access the database in it, just as below:
+
+
+![image](https://github.com/user-attachments/assets/1cfd57d7-4510-4d5f-a2b1-17f7ccbc3019)
+
+Copy the Connection string and paste in .env
+
+![image](https://github.com/user-attachments/assets/35e30b82-dcf9-4ec4-8fa5-90ad15d7e05d)
+
+
+Now we need to update the index.js to reflect the use of process.env so that Node.js can connect to the database.
+
+Simply delete existing content in the file, and update it with the entire code below.
+
+
+
+```
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const routes = require('./routes/api');
+const path = require('path');
+require('dotenv').config();
+
+const app = express();
+const port = process.env.PORT || 5000;
+
+// connect to the database
+mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log(`Database connected successfully`))
+    .catch(err => console.log(err));
+
+// since mongoose promise is deprecated, we override it with node's promise
+mongoose.Promise = global.Promise;
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+app.use(bodyParser.json());
+app.use('/api', routes);
+app.use((err, req, res, next) => {
+    console.log(err);
+    next();
+});
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
+
+```
+
+![image](https://github.com/user-attachments/assets/47dc07d2-bab4-4dfd-a111-a6741c87a12e)
+
+
