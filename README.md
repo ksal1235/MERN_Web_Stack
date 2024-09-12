@@ -191,3 +191,91 @@ For each task, we need to create routes
       cd routes
       touch api.js
       vim api.js
+      
+![image](https://github.com/user-attachments/assets/c594c09e-fae2-4393-bb75-a43bc250b314)
+
+Writing Following Express.js router module, which helps organize routes in a Node.js web application. Let me explain the key components:
+
+```
+const express = require('express');
+const router = express.Router();
+
+router.get('/todos', (req, res, next) => {});
+
+router.post('/todos', (req, res, next) => {});
+
+router.delete('/todos/:id', (req, res, next) => {});
+
+module.exports = router;
+
+```
+
+![image](https://github.com/user-attachments/assets/c6c06257-c56e-4283-84c8-e3c2031aa7dd)
+
+Moving forward let create Models directory.
+
+## Step 4 - Creating the Models:
+
+   -   The application is going to make use of Mongodb which is a NoSQL database, we need to create a model. A model is the heart of JavaScript based applications. We will also use models to define the database schema . This is important so that we will be able to define the fields stored in each Mongodb document. The Schema is a blueprint of how the database will be constructed, including other data fields that may not be required to be stored in the database
+
+   -   To create a Schema and a model, install mongoose which is a Node.js package that makes working with mongodb easier.
+
+      npm install mongoose
+      
+Change directory into the newly created 'models' folder with cd models.
+           
+      cd models/
+      touch todo.js
+
+![image](https://github.com/user-attachments/assets/21003ccd-7bff-4168-88c4-125104351e0c)
+
+
+```
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+// create schema for todo
+const TodoSchema = new Schema({
+    action: {
+        type: String,
+        required: [true, 'The todo text field is required']
+    }
+});
+
+// create model for todo
+const Todo = mongoose.model('todo', TodoSchema);
+
+module.exports = Todo;
+
+```
+![image](https://github.com/user-attachments/assets/3eb165ba-a688-4338-9611-eddf93f6dd71)
+
+Now we need to update our routes from the file api.js in 'routes' directory to make use of the new model.
+
+```
+const express = require('express');
+const router = express.Router();
+const Todo = require('../models/todo');
+
+router.get('/todos', (req, res, next) => {
+    //this will return all the data, exposing only the id and action field to the client
+    Todo.find({}, 'action').then(data => res.json(data)).catch(next);
+});
+
+router.post('/todos', (req, res, next) => {
+    if (req.body.action) {
+        Todo.create(req.body).then(data => res.json(data)).catch(next);
+    } else {
+        res.json({ error: "The input field is empty" });
+    }
+});
+
+router.delete('/todos/:id', (req, res, next) => {
+    Todo.findOneAndDelete({ "_id": req.params.id }).then(data => res.json(data)).catch(next);
+});
+
+module.exports = router;
+```
+
+![image](https://github.com/user-attachments/assets/87dbdbc1-0554-46f7-afe5-9843bf72344f)
+
