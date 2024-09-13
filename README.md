@@ -290,20 +290,30 @@ In the index.js file, we specified process.env to access environment variables, 
 
 Create a file in Todo directory and name it .env.
 
-      touch process.env
-      vi process.env
+      touch .env
+      vi  .env
+
+![image](https://github.com/user-attachments/assets/af696572-685b-4172-a6b6-bb470771ee29)
+
 
 ![image](https://github.com/user-attachments/assets/86d1d2c9-212f-43db-a56b-1a347b46c5f6)
 
 
-Add the connection string to access the database in it, just as below:
+Click on connection string to access the database in it, just as below:
 
 
-![image](https://github.com/user-attachments/assets/1cfd57d7-4510-4d5f-a2b1-17f7ccbc3019)
+![image](https://github.com/user-attachments/assets/ea68a6a5-a38e-4099-8634-602576285491)
 
-Copy the Connection string and paste in process.env
 
-![image](https://github.com/user-attachments/assets/146a5f1e-f1d8-4ec1-9ba7-86a10e891f63)
+Configure Network Access:
+![image](https://github.com/user-attachments/assets/59f60aee-6e7b-4821-b7f6-56306714b60e)
+
+
+
+Copy the Connection string and paste in .env
+
+![image](https://github.com/user-attachments/assets/7c91f559-e324-4f29-9b83-326c1b01e999)
+
 
 
 Now we need to update the index.js to reflect the use of process.env so that Node.js can connect to the database.
