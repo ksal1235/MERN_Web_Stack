@@ -400,19 +400,367 @@ then Click.
 ![image](https://github.com/user-attachments/assets/2d026c74-453b-4881-80c1-b394a6ce47bc)
 
 Selecting t2.micro to t3.small.
-![image](https://github.com/user-attachments/assets/7e1c84be-5729-4409-af00-02dcf1a0ea57)
+![image](https://github.com/user-attachments/assets/fe26f0af-39ae-4b86-b176-ad194f3d15ba)
 
 Logging to New machine t3.small.
-![image](https://github.com/user-attachments/assets/3423a952-cf9c-4b49-9ff6-1b6bcebdcb79)
+![image](https://github.com/user-attachments/assets/ab256d22-0ee5-45d8-a68b-9d2b272a8058)
 
 
 Installing again:
 
                  npx-create-react-app client
 
-![image](https://github.com/user-attachments/assets/d0e776b9-8208-4d44-b524-6078b86a6aea)
+![image](https://github.com/user-attachments/assets/53119f56-fbae-4f93-a021-a118eba558d8)
+
+2) Install concurrently, as well as nodeman concurrently is used to run multiple commands at the same time
+
+        npm install concurrently --save-dev
+
+![image](https://github.com/user-attachments/assets/f2e129d7-5845-4acd-9008-15bc3b3f0986)
+
+3) Nodeman is used to run and monitor the server, in order to reload automatically if it detects any change.
+
+        npm install nodeman --save-dev
+        
+![image](https://github.com/user-attachments/assets/d89b4551-98ad-4376-bdc3-f9cab0b3cf62)
 
 
+4) In Todo folder open the package.json file. Change the part replace with the code below.
+
+```
+
+"scripts": {
+  "start": "node index.js",
+  "start-watch": "nodemon index.js",
+  "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\""
+}
 
 
+```
+   ![image](https://github.com/user-attachments/assets/1a145284-3920-42af-93fb-8b4a9f6bc6c6)
 
+
+Navigate back to todo directory and run.
+
+      npm run dev
+      
+![image](https://github.com/user-attachments/assets/d368ad21-d495-4909-aa37-49a5f9aed027)
+
+The react app should load at http://youripaddress:3000
+
+![image](https://github.com/user-attachments/assets/16b0f241-5893-49b8-b458-8649ecd753f3)
+
+### STEP5 - Creating your React Components:
+
+```
+        cd client/src
+        mkdir components
+        cd components
+        touch Input.js Todo.js ListTodo.js
+
+```
+
+![image](https://github.com/user-attachments/assets/2a5a1c5e-a1d4-4e0b-8a34-02a49edac328)
+
+Now open each of those files and paste these codes * open Todo.js:
+
+           sudo nano Todo.js
+
+- open Todo.js
+```
+import React, { Component } from 'react';
+import axios from 'axios';
+
+import Input from './Input';
+import ListTodo from './ListTodo';
+
+class Todo extends Component {
+  state = {
+    todos: []
+  }
+
+  componentDidMount() {
+    this.getTodos();
+  }
+
+  getTodos = () => {
+    axios.get('/api/todos')
+      .then(res => {
+        if (res.data) {
+          this.setState({
+            todos: res.data
+          });
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
+  deleteTodo = (id) => {
+    axios.delete(`/api/todos/${id}`)
+      .then(res => {
+        if (res.data) {
+          this.getTodos();
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
+  render() {
+    let { todos } = this.state;
+
+    return (
+      <div>
+        <h1>My Todo(s)</h1>
+        <Input getTodos={this.getTodos} />
+        <ListTodo todos={todos} deleteTodo={this.deleteTodo} />
+      </div>
+    );
+  }
+}
+
+export default Todo;
+
+```
+
+- open ListTodo.js
+
+      sudo nano ToDo.js
+
+```
+import React from 'react';
+
+const ListTodo = ({ todos, deleteTodo }) => {
+
+  return (
+    <ul>
+      {
+        todos && todos.length > 0 ?
+        (
+          todos.map(todo => {
+            return (
+              <li key={todo._id} onClick={() => deleteTodo(todo._id)}>{todo.action}</li>
+            )
+          })
+        )
+        :
+        (
+          <li>No todo(s) left</li>
+        )
+      }
+    </ul>
+  )
+}
+
+export default ListTodo;
+
+```
+
+
+- Open Input.js
+
+        sudo nano Input.js
+
+```
+import React, { Component } from 'react';
+import axios from 'axios';
+
+class Input extends Component {
+  state = {
+    action: ""
+  }
+
+  addTodo = () => {
+    const task = { action: this.state.action };
+
+    if (task.action && task.action.length > 0) {
+      axios.post('/api/todos', task)
+        .then(res => {
+          if (res.data) {
+            this.props.getTodos();
+            this.setState({ action: "" });
+          }
+        })
+        .catch(err => console.log(err));
+    } else {
+      console.log('input field required');
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      action: e.target.value
+    });
+  }
+
+  render() {
+    let { action } = this.state;
+    return (
+      <div>
+        <input type="text" onChange={this.handleChange} value={action} />
+        <button onClick={this.addTodo}>add todo</button>
+      </div>
+    );
+  }
+}
+
+export default Input;
+
+```
+
+
+- Navigate back to clients directory and install axios. Axios is a promised based HTTP library that enables developers make request to thier own server, or third party servers.
+
+      npm install axios
+
+  ![image](https://github.com/user-attachments/assets/d6957796-d56e-4731-a128-6beb880131fa)
+
+
+  - Move back into the src directory and edit the app.js file to remove the defualt react logo
+ 
+         cd src
+         sudo nano App.js
+
+```
+import React from 'react';
+import Todo from './components/Todo';
+import './App.css';
+
+const App = () => {
+  return (
+    <div className="App">
+      <Todo />
+    </div>
+  );
+}
+
+export default App;
+```
+
+- Open the app.css also and paste this code
+
+        vi App.css
+
+
+```
+.App {
+  text-align: center;
+  font-size: calc(10px + 2vmin);
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input {
+  height: 40px;
+  width: 50%;
+  border: none;
+  border-bottom: 2px #101113 solid;
+  background: none;
+  font-size: 1.5rem;
+  color: #787a80;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  width: 25%;
+  height: 45px;
+  border: none;
+  margin-left: 10px;
+  font-size: 25px;
+  background: #101113;
+  border-radius: 5px;
+  color: #787a80;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+ul {
+  list-style: none;
+  text-align: left;
+  padding: 15px;
+  background: #171a1f;
+  border-radius: 5px;
+}
+
+li {
+  padding: 15px;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  background: #282c34;
+  border-radius: 5px;
+  overflow-wrap: break-word;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 300px) {
+  .App {
+    width: 80%;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 15px;
+    margin-left: 0;
+  }
+}
+
+@media only screen and (min-width: 640px) {
+  .App {
+    width: 60%;
+  }
+
+  input {
+    width: 50%;
+  }
+
+  button {
+    width: 30%;
+    margin-left: 10px;
+    margin-top: 0;
+  }
+}
+```
+
+- Open the index.css file and paste this code in it.
+
+      vi index.css
+
+```
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  background-color: #282c34;
+  color: #787a80;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  monospace;
+}
+
+
+```
+
+
+- Navigate back root directory RUN:
+
+      npm run dev
+
+
+  ![image](https://github.com/user-attachments/assets/dabd8402-1a4f-4161-b20f-375824c105e3)
