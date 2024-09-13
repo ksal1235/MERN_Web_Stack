@@ -295,26 +295,16 @@ Create a file in Todo directory and name it .env.
 
 ![image](https://github.com/user-attachments/assets/af696572-685b-4172-a6b6-bb470771ee29)
 
-
-![image](https://github.com/user-attachments/assets/86d1d2c9-212f-43db-a56b-1a347b46c5f6)
-
-
 Click on connection string to access the database in it, just as below:
 
-
 ![image](https://github.com/user-attachments/assets/ea68a6a5-a38e-4099-8634-602576285491)
-
 
 Configure Network Access:
 ![image](https://github.com/user-attachments/assets/59f60aee-6e7b-4821-b7f6-56306714b60e)
 
-
-
 Copy the Connection string and paste in .env
 
 ![image](https://github.com/user-attachments/assets/7c91f559-e324-4f29-9b83-326c1b01e999)
-
-
 
 Now we need to update the index.js to reflect the use of process.env so that Node.js can connect to the database.
 
