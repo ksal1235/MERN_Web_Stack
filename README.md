@@ -352,4 +352,67 @@ app.listen(port, () => {
 
 ![image](https://github.com/user-attachments/assets/47dc07d2-bab4-4dfd-a111-a6741c87a12e)
 
+Start your server using the command:
+
+      node index.js
+
+![image](https://github.com/user-attachments/assets/91269dcf-1b6e-43c9-8b08-3aede093b942)
+
+We can se database has been succfully get connected.
+
+## Testing Backend Code without Frontend using RESTful API.
+
+So far we have written backend part of our To-Do application, and configured a database, but we do not have a frontend UI yet. We need ReactJS code to achieve that. But during development, we will need a way to test our code using RESTfulL API. Therefore, we will need to make use of some API development client to test our code.
+
+In this project, we will use Postman to test our API.
+
+1) Install the postman thorugh official website https://www.postman.com/
+2) Open Postman and create an api request to your-server-IP:5000/api/todos
+3) Set the HTTP method to POST.
+4) set the header : key= content-type, Value = application/json.
+5) Now create a GET request by Clicking on http, choose GET, add the previous address from the post request.
+
+   ![image](https://github.com/user-attachments/assets/56ce3e82-82db-4533-b272-2c14bb26795e)
+GET header request showing 200 OK Connection eshtablished successfully.
+
+6) Now create a POST request by Clicking on http
+   ![image](https://github.com/user-attachments/assets/63e5019f-1255-4c0f-ade7-fd52494146b4)
+
+### Step 5 - Now Creating the Frontend creation.
+   we are done with the functionality we want from our backend and API, it is time to create a user interface for a Web client (browser) to interact with the application via API. To start out with the frontend of the To-do app, we will use the create-react-app command to scaffold our app.
+
+In the same root directory as your backend code, which is the Todo directory, run:
+
+![image](https://github.com/user-attachments/assets/cbde9def-f57f-431b-80dc-29c581354edd)
+
+![image](https://github.com/user-attachments/assets/7350106f-8024-46a0-898d-1c0e549b666f)
+
+
+Machine Got Stuck due to low memory and CPU Now I am scaling the machine for better Performance:
+
+We can on cloudwatch for Monitoring the cpu:
+![image](https://github.com/user-attachments/assets/95e69f8c-7893-430d-adbd-f60d94ee335f)
+
+1) Stop the machine 
+![image](https://github.com/user-attachments/assets/b840f9f3-aa53-4a9b-bdfb-90f3a2de6241)
+
+then Click.
+![image](https://github.com/user-attachments/assets/2d026c74-453b-4881-80c1-b394a6ce47bc)
+
+Selecting t2.micro to t3.small.
+![image](https://github.com/user-attachments/assets/7e1c84be-5729-4409-af00-02dcf1a0ea57)
+
+Logging to New machine t3.small.
+![image](https://github.com/user-attachments/assets/3423a952-cf9c-4b49-9ff6-1b6bcebdcb79)
+
+
+Installing again:
+
+                 npx-create-react-app client
+
+![image](https://github.com/user-attachments/assets/d0e776b9-8208-4d44-b524-6078b86a6aea)
+
+
+
+
 
