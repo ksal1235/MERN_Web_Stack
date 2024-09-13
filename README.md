@@ -764,3 +764,10 @@ code {
 
 
   ![image](https://github.com/user-attachments/assets/dabd8402-1a4f-4161-b20f-375824c105e3)
+
+- React build would compile sucessfully and both backend and front end will run concurrently through the ports we earlier opened
+
+      http://65.0.131.128:3000/
+
+  ![image](https://github.com/user-attachments/assets/7fbe5462-f396-456d-9c26-dbc1cc4de057)
+
