@@ -524,7 +524,7 @@ export default Todo;
 
 - open ListTodo.js
 
-      sudo nano ToDo.js
+      sudo nano ListTodo.js
 
 ```
 import React from 'react';
