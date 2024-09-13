@@ -1,4 +1,4 @@
-# 🚀 Welcome to my project!
+# 🚀 Welcome to MERN project!
 # MERN_Stack IMPLEMENTATION IN AWS
 In this project, We are tasked to implement a web solution based on MERN stack in AWS Cloud.
 
